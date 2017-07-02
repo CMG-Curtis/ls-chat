@@ -1,0 +1,1092 @@
+<html><head>
+		<title>Live Chat </title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="GOOGLEBOT" content="NOARCHIVE"> 
+		<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+		<meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width=device-width">
+		<link href="/lhn/css/chatbase.css" rel="stylesheet" type="text/css">
+		<link href="/supportstyle.css" rel="stylesheet" type="text/css" id="lhnCss">
+		<!--This should likely be meged with other page CSS-->
+		<style type="text/css">
+			#mainchatMobile *{
+				float:inherit !important;
+			}
+			.lhnsystem {color:#0055AA;}
+			.lhncustomer {color:#5E5E5E;}
+			.lhncustomer span {color:#5E5E5E;}
+			.lhnoperator {color:#5E5E5E;}
+			.lhnoperator span {color:#5E5E5E;}
+
+            .lhnmsg{padding:0px 5px;}
+            .lhnmsg span{font-weight:bolder;margin-right:3px;}
+            .lhnmsg a{text-decoration:none;color:#0055AA;}
+            .lhnmsg a:hover{text-decoration:underline !important;}
+            .lhnoperator{background-color:#F3F3F3;}
+            .lhnoperator, .lhncustomer, .lhnwhisper{padding:5px;margin-bottom:3px;}
+            .lhnoperator span.cycle, .lhncustomer span.cycle{display:block;position:absolute;}
+            .lhnwhisper span.cycle{display:block;position:absolute;}
+            .lhnwhisper{background-color:#FFFF33;color:#5E5E5E;font-style:italic;position:relative;}
+            .lhnwhisperlink {text-decoration:none;font-size:10px !important;}
+            .lhnwhispercopylink {text-decoration: none !important;font-size: 10px !important;position:absolute;top:10px;font-style:normal !important;}
+            .lhnaccepted {color:Green !important;}
+            .lhnaccepted a {font-weight:bolder;}
+            .lhnTimeInChat {font-size:10px;padding:0;margin:0;color:#bfbfbf;position:relative;z-index:1;}
+
+            .lhnuntranslated{font-style:italic;opacity:0.6;}
+            .lhnInfoIcon{background:url(/lhn/images/admin_info_ico_14.gif) no-repeat 5px center;}
+
+            .corner-top{border-top-left-radius:5px;border-top-right-radius:5px;}
+            .corner-bottom{border-bottom-left-radius:5px;border-bottom-right-radius:5px;}
+            .corner-all{border-radius:5px;}
+
+            .lhnoperator.first, .lhnwhisper.first{padding-top:5px;}
+            .lhnoperator.last, .lhnwhisper.last{padding-bottom:5px;}
+            .last{margin-bottom:3px;}
+
+            .ltr .lhnmsg span {padding-right: 5px;}
+            .ltr .lhnoperator span.cycle, .ltr .lhncustomer span.cycle{left:12px;}
+            .ltr .lhnwhisper span.cycle{left:5px;}
+            .ltr .lhnwhispercopylink {right:5px;}
+            .ltr .lhnInfoIcon{padding-left:25px;}
+            .ltr .lhnTimeInChat {float:right;}
+
+            .rtl {direction: rtl;}
+            .rtl .lhnmsg span {padding-left: 5px;}
+            .rtl .lhnoperator span.cycle, .rtl .lhncustomer span.cycle{right:12px;}
+            .rtl .lhnwhisper span.cycle{right:5px;}
+            .rtl .lhnwhispercopylink {left:5px;}
+            .rtl .lhnInfoIcon{padding-right:25px;}
+            .rtl .lhnTimeInChat {float:left;}
+        </style>
+		<script src="/lhn/js/external/jquery-1.7.1.min.js" type="text/javascript"></script>
+		<script src="./jsutil/utility.js" type="text/javascript"></script>
+		<script src="./jsutil/popup.js" type="text/javascript"></script>
+		<script src="/lhn/console/js/jquery.lhnTranslater.js?7/1/2017 11:37:27 PM" type="text/javascript"></script>
+		<script src="/lhn/js/external/jquery.countup.js" type="text/javascript"></script>
+        <script src="/lhn/Scripts/jquery/jquery.cycle2.min.js" type="text/javascript"></script>
+        <script src="/lhn/js/internal/lhn-helpers.js" type="text/javascript"></script>
+      
+		<!--[if IE]>
+		<style type="text/css">
+			#chatConversation {height: 55%;}
+		</style>
+		<![endif]-->
+		<script type="text/javascript">
+		    //<![CDATA[
+		    function adjustMessages(back) {
+		        /*var i = 1;
+		        var currentMsg = $(".lhnmsg").last();
+		        while(i<back){
+		            currentMsg = $(currentMsg).prev();
+		            if ($(currentMsg).hasClass("lhnTimeInChat")) {
+		                currentMsg = $(currentMsg).prev();
+		            }
+		            i=i+1;
+		        };
+
+		        var currentClass = "";
+		        $(currentMsg).addClass("last corner-bottom");
+
+		        if ($(currentMsg).hasClass("lhncustomer")) {
+		            currentClass = "lhncustomer";
+		        } else if ($(currentMsg).hasClass("lhnoperator")) {
+		            currentClass = "lhnoperator";
+		        } else if ($(currentMsg).hasClass("lhnsystem")) {
+		            currentClass = "lhnsystem";
+		        } else if ($(currentMsg).hasClass("lhnwhisper")) {
+		            currentClass = "lhnwhisper";
+		            if ($(currentMsg).find("span").html() != $(currentMsg).prev().find("span").html()) {
+		                currentClass = "none";
+		            }
+		        }
+
+		        var prevMsg = $(currentMsg).prev();
+		        if ($(prevMsg).hasClass("lhnTimeInChat")) {
+		            prevMsg = $(prevMsg).prev();
+		        }
+		        if ($(prevMsg).hasClass(currentClass)) {
+		            $(prevMsg).removeClass("last corner-bottom");
+		            if (currentClass != "lhnsystem") {
+		                $(currentMsg).css("padding-left", ($(currentMsg).find("span").width() + 10) + "px");
+		                $(currentMsg).find("span").hide();
+		            }
+		        } else {
+		            $(currentMsg).addClass("first corner-top");
+		        }
+
+		        if (i != 1) {
+		            adjustMessages(i-1);
+		        }*/
+		    }
+
+			var isWL = false;
+			var totalHeightNoChatFrame;
+			var tTimer;
+			var bUpdate=true;
+			var mi=1231395055;
+			var b_onunload_fired=false;
+			var response;
+			var typingResponse;
+			var GetAll=1;
+			var nReqs=0;
+			var TypingStatusObj;
+			var testtyping=1;
+			var TypingStatus;
+			var nOperReqs=0;
+			var bMesFromOper=0;
+			var SetTyping=1;
+			var SurveyID=0;
+			var SurveyPrompt=0;
+			var SurveyPromptMessage='';
+			var bShowSurvey=1;
+			var surveyShown=0;
+			var windowToOpen='';
+			var gOperLanguageID;
+			var gCustLanguageID;
+			var hasFocus=true;
+			var sstr='';
+			var bTimeoutPrompts = -1;
+			var sPoweredBy='Powered by <a style="text-decoration:none" href="http://www.livehelpnow.net/?ref=29864" target=_blank>LiveHelpNow<sup>&reg;</sup></a>&nbsp;';
+			var iPositionPollingInterval=10000;
+			var promptToCloseTimeout;
+			var queueUpdateInterval;
+			var queueOptimeoutInterval;
+			var inquiry='';
+		  var shortenURLChars=0;
+		  var defaultPhoto;
+
+			var isMobile = {
+				Android: function () {
+					return navigator.userAgent.match(/Android/i) ? true : false;
+				},
+				BlackBerry: function () {
+					return navigator.userAgent.match(/BlackBerry/i) ? true : false;
+				},
+				iOS: function () {
+					return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+				},
+				Windows: function () {
+					return navigator.userAgent.match(/IEMobile/i) ? true : false;
+				},
+				any: function () {
+					return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
+				}
+			};
+
+			$(function(){
+				mbl();
+				if( isMobile.any() || -1==0) {
+					$(window).bind('resize', function() {
+						adjMbl();
+					});
+				}
+				else {
+					$('#countdown').countup();
+				}
+
+			    lhnHelper.shortenURLChars=shortenURLChars;        
+			});
+
+           
+           function chatIFloaded(){
+               $("#mainchat").contents().find("head").append('<style type="text/css">body {font-family:"Tahoma";font-size:14px;} .lhnsystem {color:#0055AA;} .lhncustomer {color:#5E5E5E;}	.lhncustomer span {color:#5E5E5E;} .lhnoperator {color:#5E5E5E;} .lhnoperator span {color:#5E5E5E;}</style>');
+               $("#mainchat").contents().find("body").addClass("ltr");
+               $('#closeTop').focus(function() {
+                   $('#sendRt').focus();  
+               });
+           }
+
+			function scroll_iframe(inc,dir) {
+					if (dir == "v") window.frames[0].scrollBy(0, inc);
+					else window.frames[0].scrollBy(inc, 0);
+			}
+
+			function getWindowWidth(){
+				return window.innerWidth ? window.innerWidth : document.documentElement.clientWidth;
+			}
+
+			function getWindowHeight(){
+				return window.innerHeight ? window.innerHeight : document.documentElement.clientHeight;
+			}
+
+			function hcSize(){
+				currentWidth = getWindowWidth();
+				currentHeight = getWindowHeight();
+				requestedWidth = 500;
+				requestedHeight = 500;
+				addWidth = requestedWidth - currentWidth;
+				addHeight = requestedHeight - currentHeight;
+				try{
+					window.resizeBy(addWidth,addHeight);
+				}
+				catch(e){}
+			}
+
+			function windowLoaded(){
+				isWL = true;
+				hcSize();
+				if(document.all || $.browser.opera){
+					if ($.browser.opera) { window.onresize = handleResize; } else {document.body.onresize = handleResize;}
+					//keep the initial size of the chat frame (for later resize on ie)
+					if ( $.browser.msie ) {$('#mainchat').height($('#chatWindowTbl').height()-226);}//set iframe initial size so IE resizes well IE11?
+					calcChatFrameHeight();
+					handleResize();
+					if ( $.browser.opera ) { 
+					$('#chatConversation').height('55%');
+					}
+				}
+
+				tTimer=setInterval('KeepChatAlive();',2000);
+				//console.log('set tTimer');
+				sstr=encodeURIComponent(sstr).replace(new RegExp( "\\n", "g" ), "<br />");
+			    //KK:Unclear why there's a timeout used here
+				setTimeout("sendMessage(3,5,sstr,1);",500);
+				
+			    window.onblur = function () {hasFocus = false; $(".cycle-slideshow").cycle("pause");}
+			    window.onfocus = function () {hasFocus = true; $(".cycle-slideshow").cycle("resume");}
+				
+				
+			  defaultPhoto=document.getElementById("rtAgentPhotoImg").src;
+			}
+
+			function handleResize(){
+				var height = getWindowHeight();
+				var mainFrame = document.getElementById('mainchat');
+				var mainFrameRow = document.getElementById('chatConversation');
+				if(mainFrame!=null && (height>totalHeightNoChatFrame) ){
+					mainFrame.style.height = (height-totalHeightNoChatFrame)-2 + "px";
+					mainFrameRow.style.height = (height-totalHeightNoChatFrame)-2 + "px";
+				}
+			}
+
+			function calcChatFrameHeight(){
+				var rows = document.getElementById('chatWindowTbl').rows;
+				totalHeightNoChatFrame = 0;
+				for(var i=0;i<rows.length; i++){
+					if(rows[i].id != 'chatWindowRow'){
+						if ($(rows[i]).is(':visible')==true){
+						totalHeightNoChatFrame += rows[i].offsetHeight;
+						}
+					}
+				}
+			}
+
+			function pausecomp(millis) {zadate = new Date();var zcurDate = null;do { var zcurDate = new Date(); } while(zcurDate-zadate < millis);} 
+			function focustext(){$('#message').focus();return false;}		
+			function Trim(s){return RTrim(LTrim(s));}
+			function LTrim(s){try{do{if(null==s||s.length<=0)break;var whitespace=" \t\r\n";if(whitespace.indexOf(s.charAt(0))>=0){var len=s.length;var index;for(index=0;index<len;++index){if(whitespace.indexOf(s.charAt(index))<0)break;}if(index<len)s=s.substring(index);else s="";}}while(false);}catch(Cb){s="";}return s;}
+			function RTrim(s){try{do{if(null==s||s.length<=0)break;var len=s.length;var whitespace=" \t\r\n";if(whitespace.indexOf(s.charAt(len-1))>=0){var index;for(index=len-1;index>=0;--index){if(whitespace.indexOf(s.charAt(index))==-1)break;}if(index>=0)s=s.substring(0,index+1);else s="";}}while(false);}catch(Db){s="";}return s;}
+			function UnFilterMsg(s) {var n = s;n = n.replace(/\r|\n|\r\n/g, '');n = n.replace(/&Cquest;/g, '?');n = n.replace(/&Clt;/g, '<');n = n.replace(/&Cgt;/g, '>');n = n.replace(/&Cquot;/g, '"');n = n.replace(/&Csolidus;/g, '/');n = n.replace(/&Crevsolidus;/g, '\\');n = n.replace(/&Cnumsign;/g, '#');n = n.replace(/&Ccomma;/g,',');n = n.replace(/&Camp;/g, '&');return n;}
+			//function WriteMessage(mes){var ifrm = document.getElementById('mainchat');ifrm = (ifrm.contentWindow) ? ifrm.contentWindow : (ifrm.contentDocument.document) ? ifrm.contentDocument.document : ifrm.contentDocument;ifrm.document.open();ifrm.document.write(mes);setTimeout("scroll_iframe(2134, 'v')",300);}//window.frames[0].document.write(mes);
+			//blurring message on IOS to hide keyboard
+			//KK:The replacements here are very fragile, but can likely be made much less specific /w a regexp, since all they seem to do is insert a "color:#000;" into the styles (which is odd, since they way it's inserted won't override existing color definitions, and the default is likely black anyway). Let's see, presuming HTML is only the message itself just change all styles: .replace(/style="/,'style="color:#000;'), but might need to be more specific depending on the specifics of HTML input.
+			function WriteMessage(mes){
+			    mes = lhnHelper.convertUrlsAndImages(mes);
+			    if( isMobile.any() ) {$('#mainchatMobile').append(mes);$("#mainchatMobile").prop({ scrollTop: $("#mainchatMobile").prop("scrollHeight") });if (isMobile.iOS()){$("#message").trigger('blur'); }adjustMessages();
+			    } else {
+			        $('#mainchat').contents().find('body').append(mes);window.frames['mainchat'].adjustMessage();$("#508messages").html(mes);setTimeout(function(){$("#508messages").focus();},200);setTimeout(function(){$("#message").focus();},210);}}
+			function encode_utf8( s ) { return unescape( encodeURIComponent( s ) );}
+			function decode_utf8( s ) { return decodeURIComponent( escape( s ) );}
+
+			function SetVisitorTyping(){
+				if (SetTyping==1){
+					if ($('#message').val()!='') {
+						$.ajax({
+							type: "GET",
+							async: true,
+							url: "/lhn/functions/chat_handler.ashx",
+							data: "mode=setvisitortyping&vid=901a3a16-ca68-44a4-897c-23-29864-7315022&cid=29864&oid=0&x=" + Math.random(),
+							success: function(msg){
+								SetTyping=0;
+								return false;
+							}
+						});
+					}
+				}
+				return false;
+			}
+
+		    function PromptToClose(){
+		      promptToCloseTimeout=window.setTimeout(function(){$('#closeTop').click();},120000);//MK 5/3/2015 Redirecting to survey. redirectToOfflineWin()
+			    nOperReqs=0;
+			    doConfirm("This live chat session was idle for more than 5 minutes. Would you like to leave a message instead?", function yes()
+			    {
+			        redirectToOfflineWin();
+			    }, function no()
+			    {
+			        nReqs=0;
+			        nOperReqs=0;
+			        window.clearTimeout(promptToCloseTimeout);
+			    });
+          
+		      newMessageAlert(0);
+			}
+
+			function redirectToOfflineWin() {
+				CloseChatSession();
+				location.href='lcv.aspx?d=34886&longwait=1&lhnid=29864&zzwindow=0';
+				document.body.style.cursor = 'wait';
+				window.frames[0].document.body.style.cursor = 'wait';
+				nReqs=0;
+				nOperReqs=0;
+			}
+
+			function ShowSurvey(openwindow){
+				var survey = false;
+				if (surveyShown==0){
+					//check if survey should be shown
+					if (bShowSurvey==1 && SurveyID>0 && SurveyPrompt==1){
+						if (confirm(SurveyPromptMessage)==true){
+							survey=true;
+						}
+					}
+					if (bShowSurvey==1 && SurveyID>0 && SurveyPrompt==0){
+						survey=true;
+					}
+					if (survey){
+						surveyShown=1;
+						windowToOpen='survey.aspx?c=29864&s=' + SurveyID+'&vid=901a3a16-ca68-44a4-897c-23-29864-7315022&7/1/2017 11:37:27 PM';
+					}
+				}
+				return survey;
+			}
+
+			function CloseChatSession(){
+				var survey = false;
+				bUpdate=false;
+				clearTimeout(tTimer);
+				$("#message").val("chat closed");
+				$("#message").attr("disabled","disabled");
+				if (queueOptimeoutInterval){
+				    clearInterval(queueOptimeoutInterval);
+				    queueOptimeoutInterval=false;
+				}
+				if (queueUpdateInterval){
+				    clearInterval(queueUpdateInterval);
+				    queueUpdateInterval=false;
+				}
+				if (b_onunload_fired==false){
+					b_onunload_fired=true;
+
+					$.ajax({
+						type: "GET",
+						async: false,
+						url: "/lhn/functions/chat_handler.ashx",
+						data: "mode=closechat&vid=901a3a16-ca68-44a4-897c-23-29864-7315022&cid=29864&oid=0&cs=1&x=" + Math.random(),
+					    success: function(msg){
+						    return false;
+						}
+					});
+				}	
+			}
+		    function KeepChatAlive(){
+				//if(nReqs>150){
+				//	if (bTimeoutPrompts != 0){
+				//		PromptToClose();
+				//	}
+				//	else {
+				//		redirectToOfflineWin();
+				//	}
+		        //}
+		        var bCommandMessage =0;
+				$.ajax({
+					type: "POST",
+					async: true,
+					timeout: 1900,
+					url: "/lhn/functions/chat_handler.ashx",
+					data: "mode=getmessages&vid=901a3a16-ca68-44a4-897c-23-29864-7315022&oid=0&cid=29864&cs=1&mi=" + mi + "&x=" + Math.random(),
+				    success: function(msg){
+				        var oJSON=eval("(" + msg + ")");
+				        oJSON.mes = UnFilterMsg(oJSON.mes);
+				        
+				        if (oJSON.mes!='' && mi!=oJSON.mi){
+						    mi=oJSON.mi;
+						    newMessageAlert(0);
+				            //close window
+						    if (oJSON.mes.indexOf('/session_ended')>-1) {bCommandMessage=1;session_ended();}; 
+						    //JoinMe
+						    if (oJSON.mes.indexOf('/desktop_sharing')>-1){
+						        bCommandMessage=1;
+						        lhn_joinme_init();
+						    }
+						    else if (oJSON.mes.indexOf('/file_request')>-1){
+						        bCommandMessage=1;
+						        lhn_show_file(document.onclick);
+						    }
+						    else if (oJSON.mes.indexOf('/set_language')>-1){  
+						        bCommandMessage=1;
+						        var str = oJSON.mes.replace("<span style='display:none;'>","").replace("</span>","");
+						        str = str.replace(/\//gi,'')									
+						        var json = eval('('+str+')');
+						        gOperLanguageID = json.set_language[0].oper;
+						        gCustLanguageID = json.set_language[1].cust;
+						    }
+						    else if (oJSON.agentname!=''){
+						        $(".agentBio_name").html(oJSON.agentname);
+						        $(".agentBio_desc").html(oJSON.agentdesc);
+						        oJSON.photo = oJSON.photo!='' ? oJSON.photo : defaultPhoto;
+ 						        document.getElementById("lftAgentPhotoImg").src=oJSON.photo+'?rnd=' + Math.random();
+ 						        document.getElementById("rtAgentPhotoImg").src=oJSON.photo+'?rnd=' + Math.random();
+ 						        $(".agentBio").show();
+
+ 						        if($("#mainchat").contents().find(".queuemessage").length || $("#mainchatMobile").contents().find(".queuemessage").length){
+ 						            if (isMobile.any()) {$("#mainchatMobile").contents().find(".queuemessage").remove();}else{$("#mainchat").contents().find(".queuemessage").remove();}
+						        
+ 						        }
+						    }
+
+						    if (oJSON.mes.indexOf('/send_secure_form') > -1 || oJSON.mes.indexOf("/send_submitted_secure_form") > -1) {
+
+						        if (typeof (LHN_Forms) == "undefined") {
+						            $.getScript('/lhn/console/jquery/ui/ver1816/js/jquery-ui-1.8.16.custom.min.js').done(function () {
+						                $.getScript('/lhn/console/js/common.js').done(function () {
+                                            Common.client.bill.properties.isEnterpriseClient = false;
+
+						                    $.getScript('/lhn/Scripts/forms.js').done(function () {
+						                        LHN_Forms.secureForms.properties.systemId = "1";
+						                        LHN_Forms.secureForms.properties.contextId = "901a3a16-ca68-44a4-897c-23-29864-7315022";
+						                        LHN_Forms.secureForms.properties.departmentId = "34886";
+						                        LHN_Forms.secureForms.properties.visitorName = $('#chatter').val().replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\\'/g,"'");
+						                        LHN_Forms.properties.clientId = "29864";
+
+						                        LHN_Forms.secureForms.loadForm(LHN_Forms.properties.clientId, {}, 1, function () {
+						                            oJSON.mes = parent.LHN_Forms.secureForms.findAndConvertCommands(oJSON.mes, 1);
+						                            WriteMessage(oJSON.mes);
+						                        });
+						                    });
+						                });
+						            });
+						        }
+						        else {
+						            oJSON.mes = parent.LHN_Forms.secureForms.findAndConvertCommands(oJSON.mes, 1);
+						            WriteMessage(oJSON.mes);
+						        }
+
+						        
+						    }
+						    else {
+						        if (bCommandMessage==0) {WriteMessage(oJSON.mes)};
+						    }
+						    
+						    nOperReqs=0;
+						    bMesFromOper=1;
+						    //Clear queue message if present.
+						    if($("#mainchat").contents().find("#queuemessage").length || $("#mainchatMobile").contents().find("#queuemessage").length){
+						        if (isMobile.any()) {$("#mainchatMobile").contents().find(".queuemessage").remove();}else{$("#mainchat").contents().find(".queuemessage").remove();}
+						        
+						    }
+
+						    
+
+						    if (queueOptimeoutInterval){
+						        clearInterval(queueOptimeoutInterval);
+						        queueOptimeoutInterval=false;
+						        //console.log('clear allqueue');
+						    }
+						    
+						    if (queueUpdateInterval){
+						        clearInterval(queueUpdateInterval);
+						        queueUpdateInterval=false;
+						    }
+							
+						}
+						else{
+							nOperReqs=nOperReqs+1;
+							if (nOperReqs>150 && nReqs>150){
+							    //5/5/2014 MK removed && bMesFromOper==0
+								//visitor has waited for a long time. Close operator's session and offer visitor to leave a message
+								nReqs=0;
+
+								if (bTimeoutPrompts != 0){
+									PromptToClose();
+								}
+								else { //MK 5/3/2015 Shoudl we redirect to survey????
+								    $('#closeTop').click();//redirectToOfflineWin();
+								}
+							}
+						}
+						nReqs=nReqs+1;
+		            }
+				});
+				if (bUpdate==false){
+				    //tTimer=setInterval('KeepChatAlive()', 2000);
+				    if (tTimer){
+				        clearInterval(tTimer);
+				        //console.log('clear tTimer');
+				        tTimer=false;
+				    }
+				    
+				}
+				if (testtyping==1){
+					$.ajax({
+						type: "GET",
+						async: true,
+						url: "/lhn/functions/chat_handler.ashx",
+						data: "mode=operatortyping&vid=901a3a16-ca68-44a4-897c-23-29864-7315022&cid=29864&oid=0&x=" + Math.random(),
+						success: function(msg){
+							TypingStatus=msg;
+							if (TypingStatus!="0"){
+								$('#tpstatus').html('Agent typing');
+							}
+							else{
+								$('#tpstatus').html('');
+							}
+						}
+					});
+				}
+				if (testtyping==0) {testtyping=1} else {testtyping=0};
+			}
+
+				function SaveMessage(){
+				    if (bUpdate==false) {return false;}
+				nReqs=0;
+				var msubtype=9;
+				var msgText=$('#message').val();
+				if (msgText==''){msgText=inquiry;}
+         
+				$('#message').val('');
+				inquiry='';
+
+				if (null!=msgText && Trim(msgText).length>0){
+
+				    //Emoji
+				    if (msgText.toLowerCase().indexOf(':)') >-1) { 
+				        msgText=msgText.replace(/:\)/g,'&#x1F603;'); 
+				    }
+				    if (msgText.toLowerCase().indexOf(':(') >-1) { 
+				        msgText=msgText.replace(/:\(/g,'&#x1F61E;'); 
+				    }
+
+				    var sMessage='<div class="lhnmsg lhncustomer"><span>' + $('#chatter').val().replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\\'/g,"'") + ':</span>'+ msgText.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(new RegExp( "\\n", "g" ), "<br />") + '</div>';
+				    var ChatMessage=encodeURIComponent(msgText.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(new RegExp( "\\n", "g" ), "<br />"));
+				    var Chatter=encodeURIComponent($('#chatter').val().replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\\'/g,"'"));
+				    WriteMessage(sMessage);
+					if (gOperLanguageID!='' && gCustLanguageID!='' && (gOperLanguageID!=gCustLanguageID )){
+						$().lhnTranslator({ clientID:29864,visitorID:"901a3a16-ca68-44a4-897c-23-29864-7315022",operatorID:0,OperLang: gCustLanguageID, CustLang: gOperLanguageID, FromOper:0 });
+						$().lhnTranslator.translateText(msgText);
+						msubtype=76;
+					}
+				    //sMessage=encodeURIComponent(sMessage).replace(new RegExp( "\\n", "g" ), "<br />");
+					$.ajax({
+						type: "POST",
+						async: true,
+						url: "/lhn/functions/chat_handler.ashx",
+						data: "mode=sendmessage&vid=901a3a16-ca68-44a4-897c-23-29864-7315022&cid=29864&cs=1&sentby=client&mtype=3&msubtype="+msubtype+"&oid=0&mes=" + ChatMessage + "&from=" + Chatter  + "&x=" + Math.random(),
+						success: function(msg){
+							$('#message').val('');
+							focustext();
+							SetTyping=1;
+							return false;
+						}, error: function(jqXHR, textStatus, errorThrown ){
+						    //console.log(errorThrown);
+						}
+					});
+				}
+			}
+
+			function WhichKey(e){
+				var key = -1 ;
+				var shift ;
+
+				key = e.keyCode ;
+				shift = e.shiftKey ;
+
+				if ( !shift && ( key == 13 )){
+					SaveMessage();
+				}
+			}
+
+			function session_ended(){
+			    setTimeout(function() {
+			        CloseChatSession();
+			        if (ShowSurvey(0)){
+			            location.href=windowToOpen;
+			        } else {
+			            window.setTimeout(function() { 
+			                self.close(); }, 100);
+			        }
+			    },1000);
+			}
+
+			function settime () {
+				var curtime = new Date();
+				var curhour = curtime.getHours();
+				var curmin = curtime.getMinutes();
+				var cursec = curtime.getSeconds();
+				var time = "";
+				time = curhour + ":" +
+					(curmin < 10 ? "0" : "") + curmin + ":" +
+					(cursec < 10 ? "0" : "") + cursec + " ";
+				return time;
+			}
+
+			var sSysMesChatStarted='Chat session started at $$$visitor_local_time$$$';
+			sSysMesChatStarted = sSysMesChatStarted.replace(/\$\$\$visitor_local_time\$\$\$/g,settime());
+			
+		    
+		            sstr=sSysMesChatStarted + '<br />Please be patient while you are being connected with an operator ...<br />'; 
+		        
+
+		    function updatePosition(){
+				var position, time
+				//Check for queue message on page (there is a significant delay before it is shown)
+				if($("#mainchat").contents().find("#queuemessage").length || $("#mainchatMobile").contents().find("#queuemessage").length){
+					//Check for queue position in message
+					//KK:Hrm, need to address that some action are needed event without a position in the message.
+				    if($("#mainchat").contents().find("#queueposition").length || $("#mainchat").contents().find("#queuetime").length
+				        || $("#mainchatMobile").contents().find("#queueposition").length || $("#mainchatMobile").contents().find("#queuetime").length){
+						$.ajax({
+							url: "queueposition.aspx",
+							cache: false,
+							data: {VisitorID: "901a3a16-ca68-44a4-897c-23-29864-7315022"}
+						}).done(function(result) {
+							//KK:VisitorID here only used for debugging and could be purged
+							//Data:<position>,<wait>,<assigned op>,<visitor id>
+						    //Check if op is not assigned
+							if(result.split(',')[2]==0){
+							  var preupdates = $("#mainchat").contents().find("#queuemessage").html() || $("#mainchatMobile").contents().find("#queuemessage").html();
+
+							    //Perform updates
+							  if (isMobile.any()) {
+							      if($("#mainchatMobile").contents().find("#queueposition").length){
+							          $("#mainchatMobile").contents().find("#queueposition").html(result.split(',')[0]);
+							      }
+							      if($("#mainchatMobile").contents().find("#queuetime").length){
+							          $("#mainchatMobile").contents().find("#queuetime").html(result.split(',')[1]);
+							      }
+							  }
+							  else
+							  {
+							      if($("#mainchat").contents().find("#queueposition").length){
+							          $("#mainchat").contents().find("#queueposition").html(result.split(',')[0]);
+							      }
+							      if($("#mainchat").contents().find("#queuetime").length){
+							          $("#mainchat").contents().find("#queuetime").html(result.split(',')[1]);
+							      }
+
+							  }
+							 
+
+							    //Post updated queue messages to Operator
+							  if (isMobile.any()) {
+							      if(preupdates!=$("#mainchatMobile").contents().find("#queuemessage").html()){
+							          sendMessage(3,117,encodeURIComponent($("#mainchatMobile").contents().find("#queuemessage").html()),0)
+							      }
+							  } else {
+							      if(preupdates!=$("#mainchat").contents().find("#queuemessage").html()){
+							          sendMessage(3,117,encodeURIComponent($("#mainchat").contents().find("#queuemessage").html()),0)
+							      }
+							  }
+								
+							}
+							else{
+							    //Clear position indicator if not previously cleared by Operator message recieved
+							    if (isMobile.any()) {
+							        if($("#mainchatMobile").contents().find("#queuemessage").length){
+							            $("#mainchatMobile").contents().find(".queuemessage").remove();
+							        }
+							    }
+							    else{
+							        if($("#mainchat").contents().find("#queuemessage").length){
+							            $("#mainchat").contents().find(".queuemessage").remove();
+							        }
+							    }
+							    
+								//Start timeout for assigned operator
+							   if(0!=0) {queueOptimeoutInterval=setInterval("OpTimeout()",0);}
+							}
+						});
+					}
+					//Recheck after position polling interval
+					//setTimeout('updatePosition()',iPositionPollingInterval);
+				} else {
+				    
+				    if (queueUpdateInterval){
+				        clearInterval(queueUpdateInterval);
+				        //console.log('clear queueUpdateInterval');
+				        queueUpdateInterval=false;
+				    }
+				}
+			}
+
+			function OpTimeout(){
+				//Check if operator has responded
+			    if(bMesFromOper==0) {
+			        //console.log('hit optimeout');
+					//Queue to new operator
+					//KK:This may be wierd if Ops accept chats, but never respond. Already accepted chats can't be directly accepted by others, they must be transfered. So the queued op will swap around but no transfer will actually occur.
+					$.ajax({
+						url: "optimeout.aspx",
+						cache: false,
+						data: {VisitorID: "901a3a16-ca68-44a4-897c-23-29864-7315022"}
+					}).done(function(result) {
+						//Restart timeout
+						//setTimeout("OpTimeout()",0)
+					});
+				} else {
+				    if (queueOptimeoutInterval){
+				        clearInterval(queueOptimeoutInterval);
+				        //console.log('clear queueOptimeoutInterval');
+				        queueOptimeoutInterval=false;
+				    }
+				}
+			}
+
+			function limitText(limitField, limitCount) {
+				var text=$(limitField).val();
+				if (text.length>limitCount) {
+				  text=text.substring(0,limitCount); 
+					$(this).val(text);
+				}
+			}
+
+			function iprint(){
+				var pp = document.frames[0];
+				pp.focus();
+				pp.parent.print();
+				return false;
+			}
+			function printIframe(id) {
+				var iframe = document.frames ? document.frames[id] : document.getElementById(id);
+				var ifWin = iframe.contentWindow || iframe;
+				iframe.focus();
+				ifWin.print();
+				return false; 
+			} 
+
+			function lhn_show_file(oevent){
+				document.getElementById('oPopover').src ='/lhn/sendrequestfile.aspx?oid=0&cs=1&time=7/1/2017 11:37:27 PM&vid=901a3a16-ca68-44a4-897c-23-29864-7315022&wid=0&vname=Customer&m='+Math.random();
+				document.getElementById('oPopover').width=300;
+				document.getElementById('oPopover').height=100;
+				return !showPopupABS('pPopover', oevent,60,100);
+			}
+
+			var haveqt =false;
+			var checkedqt =false;
+
+			function qtsupported(){
+				if (checkedqt==false) {
+					if (navigator.plugins) {
+						checkedqt=true;
+						for (i=0; i < navigator.plugins.length; i++ ) { 
+							if (navigator.plugins[i].name.indexOf("QuickTime") >= 0){
+								haveqt = true;
+							}
+						}
+					}
+				}
+				return haveqt
+			}
+
+			function newMessageAlert(sound){
+				if (hasFocus==false){
+					if (top === self) {
+						top.setFocus();
+					}
+				    //document.getElementById("message").focus();
+					if (navigator.userAgent.toLowerCase().indexOf('msie')>-1 || navigator.appVersion.indexOf('Trident/')>-1){
+						var body = document.getElementsByTagName("body");
+						var divE = document.createElement('bgsound');
+						divE.id = "LHNSound";
+						divE.style.position = "absolute";
+						divE.style.left = "0px";
+						divE.style.top = "0px";
+						divE.hidden = "true";
+						divE.src='/lhn/sounds/alert.wav';
+						divE.autostart="true";
+						divE.loop="0"
+						body[0].appendChild(divE);
+						setTimeout("document.getElementsByTagName('body')[0].removeChild(document.getElementById('LHNSound'))", 2000);
+
+					}
+					else{
+						var body = document.getElementsByTagName("body");
+						var divE = document.createElement('audio');
+						divE.setAttribute("controls",'');
+						divE.setAttribute("autoplay",'');
+						divE.id = "zaBellSound";
+						divE.style.position = "absolute";
+						divE.style.left = "-300px";
+						divE.style.top = "-300px";
+						divE.style.width = "0";
+						divE.style.height = "0";
+						divE.visible = "false";
+
+						var divESource = document.createElement('source');
+						divESource.src='/lhn/sounds/alert.mp3';
+						divESource.type="audio/wav";
+						divE.appendChild(divESource);
+
+						body[0].appendChild(divE);
+
+						setTimeout("document.getElementsByTagName('body')[0].removeChild(document.getElementById('zaBellSound'))", 2000);
+					}
+				}
+			}
+
+			function setFocus() {
+				//setTimeout('window.blur()',0);
+				setTimeout('$(window).focus()',10);
+				setTimeout('document.getElementById("message").focus()',20);
+				//window.opener.postMessage('LHN.focus', '*');
+			}
+
+			function lhn_joinme_init(){
+				var mes='';
+				if (confirm('You are about to share your desktop with our agent. Click OK to continue.')) {
+				    mes="<span style='display:none;'>-Desktop-Sharing-Accept-</span>";
+					sendMessage(1,55,mes,0); //JoinMe - Desktop sharing session invitation has been accepted by the visitor. Please <a href="javascript:startJoinMe()">click here</a> to launch....
+					WriteMessage('<div class="lhnmsg lhnsystem">Desktop sharing session is being established. Please wait for the agent to connect...</div>');
+				}
+				else{
+					//send a message to the operator
+					mes='Desktop sharing session invitation has been declined by the visitor. ';
+					mes=encodeURIComponent(mes).replace(new RegExp( "\\n", "g" ), "<br />");
+					sendMessage(1,56,mes,0);
+				}
+			}
+
+		    function sendMessage(type,subtype,mes,printonscreen){
+		        if (mes==''){return false;}
+				    if (printonscreen==1){
+				        WriteMessage('<div class="lhnmsg lhnsystem">' + decodeURIComponent(mes.replace(/\+/g, " ")) + '</div>');
+				    }
+				    $.ajax({
+					    type: "POST",
+					    async: true,
+					    url: "/lhn/functions/chat_handler.ashx",
+					    data: "mode=sendmessage&vid=901a3a16-ca68-44a4-897c-23-29864-7315022&cid=29864&cs=1&sentby=client&mtype=" + type + "&msubtype=" + subtype + "&oid=0&mes=" + mes + "&x=" + Math.random(),
+					    success: function(msg){
+						    return false;
+					    }
+				    });
+			    }
+		//]]>
+		</script>
+		<style type="text/css">
+			body {
+				background:none repeat scroll 0 0 #EFEFEF;
+				color: #000;
+			}
+			#lblCompanyLogoTop{
+				color: #000;
+				
+			}
+			#chatTitleBG {
+				background-color: #EFEFEF;
+			}
+			#closeTop{
+				color: #000 !important;
+			}
+		</style>
+	</head>
+	<body onload="windowLoaded();" onbeforeunload="CloseChatSession();" onunload="CloseChatSession();" id="chat-window">
+		<table id="chatWindowTbl" border="0" cellpadding="0" cellspacing="0">
+			<tbody>
+				<tr id="row1Header">
+					<td colspan="5" id="row1Column">
+						<div id="chatTitleBG">
+							<div id="chatTitle">
+								<div id="lblCompanyLogoTop">Checkmate Gaming</div>
+								<a id="closeTop" href="#" title="End chat" onclick="CloseChatSession();if (ShowSurvey(0)){location.href=windowToOpen;} else {window.setTimeout(function() { self.close(); }, 100);}">End chat</a>
+								<div id="topSpacerLft"></div>
+								<a id="emailTop" href="#" title="Email Transcript" onclick="document.getElementById('etranscript').src ='emailtranscript.aspx?vid=901a3a16-ca68-44a4-897c-23-29864-7315022&amp;style=2';return !showPopupABS('pEmPopup', event,30,130);">Email Transcript</a>
+								<div id="topSpacerRt"></div>
+								<a id="printTop" href="#" title="Print Transcript" onclick="printIframe('mainchat');return false;">Print Transcript</a>
+								<a id="facebookTop" href="https://www.facebook.com/CheckmateGaming.Esports/" target="_blank" title="Facebook"></a><a id="twitterTop" href="https://twitter.com/CMG_eSports" target="_blank" title="Twitter"></a><a id="youtubeTop" href="https://www.youtube.com/channel/UCqlQmQZTAMCl6FTGEY60MNg" target="_blank" title="YouTube"></a>
+							</div>
+						</div>
+					</td>
+				</tr>
+				
+				<tr id="chatWindowRow">
+					<td id="lftAgentPhoto">
+						<img id="lftAgentPhotoImg" src="https://www.livehelpnow.net/lhn/Images/Operators/new_style_2.jpg?rnd=0.8275328414129577" alt="Agent photo"> 
+              <div style="width: 90%; font-size: 11px;" class="agentBio">
+                  <div class="agentBio_name">CMG Rolo</div>
+                  <div class="agentBio_desc"></div>
+              </div>
+						<a id="facebookLft" href="https://www.facebook.com/CheckmateGaming.Esports/" target="_blank" title="Facebook"></a><a id="twitterLft" href="https://twitter.com/CMG_eSports" target="_blank" title="Twitter"></a><a id="youtubeLft" href="https://www.youtube.com/channel/UCqlQmQZTAMCl6FTGEY60MNg" target="_blank" title="YouTube"></a>
+					</td>
+					<td id="lftChatOpSpacer"></td>
+					<td id="chatConversation" width="100%" height="100%">
+						<!--hacking the Android bug http://code.google.com/p/android/issues/detail?id=19625 -->
+						<div style="height:100%;overflow:auto;display:none;font-family:" tahoma";font-size:14px;"="" id="mainchatMobile"></div>
+						<iframe id="mainchat" class="text_Window" frameborder="0" scrolling="auto" name="mainchat" src="/lhn/chat.htm?7/1/2017 11:37:27 PM" width="100%" height="100%" onload="chatIFloaded();"></iframe>
+					</td>
+					<td id="rtChatOpSpacer"></td>
+					<td id="rtAgentPhoto">
+						<img id="rtAgentPhotoImg" src="https://www.livehelpnow.net/lhn/Images/Operators/new_style_2.jpg?rnd=0.5042981853062511">
+              <div style="width: 90%; font-size: 11px;" class="agentBio">
+                  <div class="agentBio_name">CMG Rolo</div>
+                  <div class="agentBio_desc"></div>
+              </div>
+						<a id="facebookRt" href="https://www.facebook.com/CheckmateGaming.Esports/" target="_blank" title="Facebook"></a><a id="twitterRt" href="https://twitter.com/CMG_eSports" target="_blank" title="Twitter"></a><a id="youtubeRt" href="https://www.youtube.com/channel/UCqlQmQZTAMCl6FTGEY60MNg" target="_blank" title="YouTube"></a>
+					</td>
+				</tr>
+				<tr id="securityRow">
+					<td id="belowOpPhotoLft"></td>
+					<td id="secRowSpacerLft"></td>
+					<td id="securityCol">
+						<div id="securityRowImage"></div>
+						<div id="tpstatus" class="typingAgent"></div>
+					</td>
+					<td id="secRowSpacerRt"></td>
+					<td id="belowOpPhotoRt"></td>
+				</tr>
+				<tr id="msgInputRow">
+					<td id="lftSendBtn">
+						<a id="sendLft" href="#" title="Send" onclick="SaveMessage();return false;">Send</a>
+					</td>
+					<td id="msgSendDivideLft">
+						<div id="divideImageLft"></div>
+					</td>
+					<td id="msgText"> 
+							
+						<textarea onkeypress="WhichKey(event);" id="message" onkeydown="limitText(this,555);SetVisitorTyping();" onblur="limitText(this,555);" name="message" tabindex="1" dir="ltr" title="Enter message"></textarea>
+					</td>
+					<td id="msgSendDivideRt">
+						<div id="divideImageRt"></div>
+					</td>
+					<td id="rtSendBtn">
+						<a id="sendRt" title="Send" href="#" onclick="SaveMessage();return false;">Send</a>
+					</td>
+				</tr> 
+				<tr id="footer">
+					<td colspan="5" id="footerColumn">
+						<div id="lblCompanyLogoBottom">Checkmate Gaming</div>
+						<div id="footerNavContainer">
+							<a id="facebookBot" href="https://www.facebook.com/CheckmateGaming.Esports/" target="_blank" title="Facebook"></a><a id="twitterBot" href="https://twitter.com/CMG_eSports" target="_blank" title="Twitter"></a><a id="youtubeBot" href="https://www.youtube.com/channel/UCqlQmQZTAMCl6FTGEY60MNg" target="_blank" title="YouTube"></a>
+							<a id="sendBot" title="Send" href="#" onclick="SaveMessage();return false;">Send</a>
+							<a id="closeBot" title="End chat" href="#" onclick="CloseChatSession();if (ShowSurvey(0)){location.href=windowToOpen;} else {window.setTimeout(function() { self.close(); }, 100);}">End chat</a>
+							<div id="BotSpacerLft"></div>
+							<a id="emailBot" title="Email Transcript" href="#" onclick="document.getElementById('etranscript').src ='emailtranscript.aspx?vid=901a3a16-ca68-44a4-897c-23-29864-7315022&amp;style=2';return !showPopupABS('pEmPopup', event,30,130);">Email Transcript</a>
+							<div id="BotSpacerRt"></div>
+							<a id="printBot" title="Print Transcript" href="#" onclick="printIframe('mainchat');return false;">Print Transcript</a>
+						</div>
+					</td>
+				</tr>
+				<tr style="height:20px;">
+					<td colspan="5" valign="middle" align="right">
+						<a id="facebookFooter" href="https://www.facebook.com/CheckmateGaming.Esports/" target="_blank" title="Facebook"></a><a id="twitterFooter" href="https://twitter.com/CMG_eSports" target="_blank" title="Twitter"></a><a id="youtubeFooter" href="https://www.youtube.com/channel/UCqlQmQZTAMCl6FTGEY60MNg" target="_blank" title="YouTube"></a>
+						<div id="countdown" class="countdownHolder"><span class="countDays"><span class="position"><span class="digit static" style="top: 0px; opacity: 1;">0</span></span><span class="position"><span class="digit static" style="top: 0px; opacity: 1;">0</span></span></span><span class="countColon countDiv0">&nbsp;:&nbsp;</span><span class="countHours"><span class="position"><span class="digit static" style="top: 0px; opacity: 1;">0</span></span><span class="position"><span class="digit static" style="top: 0px; opacity: 1;">0</span></span></span><span class="countColon countDiv1">&nbsp;:&nbsp;</span><span class="countMinutes"><span class="position"><span class="digit static" style="top: 0px; opacity: 1;">0</span></span><span class="position"><span class="digit static" style="top: 0px; opacity: 1;">1</span></span></span><span class="countColon countDiv2">&nbsp;:&nbsp;</span><span class="countSeconds"><span class="position"><span class="digit static" style="top: 0px; opacity: 1;">3</span></span><span class="position"><span class="digit" style="top: -2.1em; opacity: 0;">1</span><span class="digit" style="top: 0em; opacity: 1;">0</span></span></span></div>
+						<span style="font-size:11px;font-weight:normal; position: relative; top: 4px;">
+							<script type="text/javascript">
+								if (isMobile.any()) {
+									document.write(sPoweredBy.replace(/(<([^>]+)>)/ig, ""));
+								}
+								else {
+									document.write(sPoweredBy);
+								}
+							</script>Powered by <a style="text-decoration:none" href="http://www.livehelpnow.net/?ref=29864" target="_blank">LiveHelpNow<sup>®</sup></a>&nbsp;
+						</span>
+						<div id="securityImage"></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<input onclick="SaveMessage();" type="button" id="send" name="send" style="display:none;">
+		<input type="hidden" value="Customer" name="chatter" id="chatter">
+		<div class="popupem" id="pEmPopup" onclick="event.cancelBubble = true;">
+			<a id="closeEtran" title="Close Email Popup" href="#" onclick="hideCurrentPopup(); return false;" style="position:absolute;top:3px;right:3px;background: url('/lhn/console/images/close_btn_gray.gif') no-repeat scroll 0 0 transparent;float: right;height: 13px;width: 13px;text-indent:-10000px;}">close</a>
+			<iframe id="etranscript" name="etranscript" align="middle" src="chat.htm" frameborder="no" width="340" scrolling="no" height="80" style="margin-top:15px;"></iframe>
+		</div>
+		<div id="blankDiv" style="LEFT: 0px; VISIBILITY: hidden; POSITION: absolute; TOP: 0px"></div>
+		<div id="pPopover" style="font-size: 13px;font-family:tahoma;position: absolute;display:none;background-color: #ffffff;border-left: 1px solid #A1A3A2;border-top: 1px solid #A1A3A2;border-bottom: 1px solid #A1A3A2;border-right: 1px solid #A1A3A2;padding: 3px;z-index: 100" onclick="event.cancelBubble = true;">
+			<iframe id="oPopover" name="oPopover" align="middle" src="chat.htm" frameborder="0" width="300" scrolling="no" height="100"></iframe>
+		</div>
+		<noscript>
+			&lt;p align="center"&gt;&lt;b&gt;This Live Chat uses Javascript. Your browser either doesn't support Javascript or you have it turned off.&lt;br&gt;
+			To be able to start a live chat session please use a Javascript enabled browser.&lt;/b&gt;&lt;/p&gt;
+			&lt;!--KK:Style can't be validly used here, need to hide by default and show via JS, or transition to HTML5 and use a noscript tag in head.--&gt;
+			&lt;style type="text/css"&gt;form{display:none;}&lt;/style&gt;
+		</noscript> 
+		<iframe id="livelook_frame" frameborder="0" marginheight="0" marginwidth="0" name="login" scrolling="no" src="/lhn/chat.htm" width="1" height="1"></iframe>
+		<script type="text/javascript">
+			//KK:Unclear why this is down here.
+			function mbl() {
+				if (isMobile.any()) {
+					$('#mainchat').hide();
+					$('#mainchatMobile').show();
+				    //$('head').prepend('<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">');
+				if ('/lhn/windows/chat/def/win.css'.indexOf('/lhn/windows/chat/')>-1) {
+				    $('#rtSendBtn').hide();
+				    $('#footer').show();
+				    $('#sendBot').show();
+				    $('#sendBot').css('color', '#00A2FF');
+				    $('#sendBot').css('margin-top', '1px');
+				    $('#sendBot').css('position', 'absolute');
+				    $('#sendBot').css('right', '12px');
+				    $('#sendBot').css('text-decoration', 'none');
+				    $('#sendBot').css('text-indent', '0px');
+				    $('#sendBot').css('text-align', 'right');
+				}
+
+				    $('#message').css('height', '35px');
+				    $('#message').css('width', '98.4%');
+				    $('#msgInputRow').css('height', '37px');
+				    $('#msgText').css('height', '37px');				    
+				    $('#rtAgentPhoto').hide();
+					$('#printTop').hide();
+					$('#printBot').hide();
+					$('#closeBot').hide();
+					$('#closeTop').show();
+					
+
+					$('#footer').css('height', '20px');
+					$('#securityRow').css('height', '18px');
+
+					$("#row1Column").height("65px");
+					$("#billboardRow, .billboard, .billSpacer").css("height", "auto");
+					$("#billboardRow").height($(".billSpacer").height());
+					$(".billText").css("box-sizing", "border-box");
+
+					setTimeout(function(){
+					    $('#chatConversation').css('height', ($(window).height() - $("#billboardRow").height() - 200) + 'px');
+
+					    //$('#mainchatMobile').css('width', $('#chatConversation').width() + 'px');
+					    //$('#mainchatMobile').css('height', $('#chatConversation').height() - 4 + 'px');
+					    setTimeout(function () {
+					        window.scrollTo(0, 1);
+					    }, 1000);
+					}, 100);
+					
+				}
+			}
+			function adjMbl() {
+			    setTimeout(function(){
+			        $('#chatConversation').css('height', ($(window).height() - $("#billboardRow").height() - 200) + 'px');
+			        //$('#mainchatMobile').css('width', $('#chatConversation').width() + 'px');
+			        //$('#mainchatMobile').css('height', $('#chatConversation').height() - 4 + 'px');
+			    }, 100);
+			}
+
+			function logError(message)
+			{
+			    $.ajax({
+			        type: "POST",
+			        async: true,
+			        url: "/lhn/functions/chat_handler.ashx",
+			        data: "mode=logerror&vid=901a3a16-ca68-44a4-897c-23-29864-7315022&cid=29864&oid=0&mes=" + message + "&x=" + Math.random()
+            });
+			}
+
+		  //  window.onerror = function(msg, url, linenumber){
+		  //      logError('IMPORTANT: ' + msg + ' | ' + linenumber);
+		  //      return true;
+		  //}
+		</script>
+		<span id="alertSND" style="position:absolute;top:-100px;left:-100px;"></span>
+
+
+      <div id="confirmBox" class="confirmBox" aria-live="assertive" aria-relevant="additions removals" role="dialog">
+        <div class="confirmBoxMessage" aria-relevant="additions removals"></div>
+        <div class="confirmBoxYesNo">
+            <span class="confirmBoxYes" title="Confirmation Yes">Yes</span>
+            <span class="confirmBoxNo" title="Confirmation No">No</span>
+        </div>
+      </div>
+
+        <div id="508messages" aria-live="assertive" aria-relevant="additions removals" style="position:absolute;top:0px;left:-999999px;width:1px;height:1px;overflow:hidden"><div class="lhnmsg lhnoperator"><span>CMG Rolo:</span>juicy juicy</div></div>
+	
+<audio controls="" autoplay="" id="zaBellSound" style="position: absolute; left: -300px; top: -300px; width: 0px; height: 0px;"><source src="/lhn/sounds/alert.mp3" type="audio/wav"></audio></body></html>

@@ -568,6 +568,7 @@ font-style:normal;
 }
 
 #msgInputRow{
+	display: flex;
 height: 75px;
 }
 
